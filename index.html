@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			*{margin:0;padding:0;}
+			.all-wrapper{
+				width:560px;
+				border:2px solid #ccc;
+				margin:50px auto;
+				height:280px;
+				padding:10px;
+			}
+			.all-wrapper .top{
+				height:60px;
+				background-color: #FCFDFF;
+				line-height: 30px;
+				text-align: right;
+			}
+			.all-wrapper .top p{
+				height:30px;
+			}
+			td{text-align: center;}
+			.hui{
+				background-color: #F9F9F9;
+			}
+			.hong{
+				color:#FE5A00;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="all-wrapper">
+			<div class="top">
+				<p id="p1"></p>
+				<p id="p2"></p>
+			</div>
+			<div class="bottom">
+				<table border="1" cellspacing="0" width="560" height="220">
+					<tr>
+						<td onmousedown="down(this)" onmouseup="up(this)" class="hui hong">(</td>
+						<td onmousedown="down(this)" onmouseup="up(this)" class="hui hong">)</td>
+						<td onmousedown="down(this)" onmouseup="up(this)" class="hui hong">%</td>
+						<td onmousedown="down(this)" onmouseup="up(this)" class="hui">C</td>
+					</tr>
+					<tr>
+						<!-- 点下去要改变颜色，松开要获取内容，颜色又变成白色 -->
+						<td onmousedown="down(this)" onmouseup="up(this)">7</td>
+						<td onmousedown="down(this)" onmouseup="up(this)">8</td>
+						<td onmousedown="down(this)" onmouseup="up(this)">9</td>
+						<td onmousedown="down(this)" onmouseup="up(this)" class="hui hong">/</td>
+					</tr>
+					<tr>
+						<td onmousedown="down(this)" onmouseup="up(this)">4</td>
+						<td onmousedown="down(this)" onmouseup="up(this)">5</td>
+						<td onmousedown="down(this)" onmouseup="up(this)">6</td>
+						<td onmousedown="down(this)" onmouseup="up(this)" class="hui hong">*</td>
+					</tr>
+					<tr>
+						<td onmousedown="down(this)" onmouseup="up(this)">1</td>
+						<td onmousedown="down(this)" onmouseup="up(this)">2</td>
+						<td onmousedown="down(this)" onmouseup="up(this)">3</td>
+						<td onmousedown="down(this)" onmouseup="up(this)" class="hui hong">-</td>
+					</tr>
+					<tr>
+						<td onmousedown="down(this)" onmouseup="up(this)">0</td>
+						<td onmousedown="down(this)" onmouseup="up(this)" class="hong">.</td>
+						<td onmousedown="down(this)" onmouseup="up(this)" class="hong">=</td>
+						<td onmousedown="down(this)" onmouseup="up(this)" class="hui hong">+</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<!-- <button style="color:red;width:100px;height:50px;font-size:38px;">asf</button> -->
+	</body>
+</html>
+<script>
+	let jieguo = false;
+	function down(t){
+		// 将自己个儿背景颜色改成灰色
+		t.style.backgroundColor = "#ddd";
+		// 获取自己个儿的背景颜色--但是我们是通过class="hui"来设置背景颜色的，我只要判断class的值有没有hui就能够知道要不要变回huise
+		// 样式是一个特殊的属性   	class="hui hong"
+		//t.calssList   表示拿到自己的class的值   hui  hong    .contains
+		jieguo = t.classList.contains("hui");
+	}
+	function up(t){
+		// 根据结果判断就行了
+		if(jieguo){
+			t.style.backgroundColor = "#F9F9F9";
+		}else{
+			t.style.backgroundColor = "#fff";
+		}
+		
+		// 松开的时候，要拿到他的值
+		let v = t.innerHTML;
+		// 将值加入到p2里面去
+		let p2 = document.getElementById("p2");
+		
+		
+		// 如果是等于号，CIA上去
+		if(v == "="){
+			// 将p2的内容放给p1
+			let p2v = p2.innerHTML;
+			let p1 = document.getElementById("p1");
+			p1.innerHTML = p2v + "=";
+			
+			// p2里面放结果
+			let result = eval("("+p2v+")");
+			p2.innerHTML=result;
+			
+		}else{
+			p2.innerHTML+=v;
+		}
+	}
+</script>
+
+<!-- 
+	1.找到节点
+	2.拿到某个值
+	3.给某个节点设置值
+	4.计算  eval('('+zhi+')')
+	5.判断是不是灰色的   let jieguo = 节点.classList.contains("hui");   结果是true或者false
+ -->
